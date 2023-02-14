@@ -385,7 +385,7 @@ export const Home = () => {
     useEffect(() => {
         if (library) {
             const getCost = async () => {
-                if (amount) {
+                if (amount && addresses[chainId]) {
                     const signer = library.getSigner()
                     const BidifyMinter = new ethers.Contract(addresses[chainId], ABI, signer)
                     const mintCost = await BidifyMinter.calculateCost(amount)
@@ -403,10 +403,11 @@ export const Home = () => {
     const getData = async () => {
         const signer = library.getSigner()
         try {
-
-            const BidifyMinter = new ethers.Contract(addresses[chainId], ABI, signer)
-            const collections = await BidifyMinter.getCollections()
-            setCollections(collections)
+            if (addresses[chainId]) {
+                const BidifyMinter = new ethers.Contract(addresses[chainId], ABI, signer)
+                const collections = await BidifyMinter.getCollections()
+                setCollections(collections)
+            }
         } catch (e) {
             setToast(e.message)
             console.log(e)

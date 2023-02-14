@@ -27,4 +27,4 @@ yarn-error.log*
 
 # dev
 .env
-package-lock.json
+# package-lock.json

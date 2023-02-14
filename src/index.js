@@ -6,9 +6,9 @@ import reportWebVitals from './reportWebVitals';
 import 'flowbite';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <React.Fragment>
     <App />
-  </React.StrictMode>,
+  </React.Fragment>,
   document.getElementById('root')
 );
 

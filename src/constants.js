@@ -12,7 +12,7 @@ import moonriver from "./assets/images/moonriver.png"
 export const NetworkId = {
   POLYGON: 137,
   // POLYGON_TESTNET: 80001,
-  RINKEBY: 4,
+  GOERLI: 5,
   ETHEREUM: 1,
   ETHERGEM: 1987,
   AVALANCHE: 43114,
@@ -26,10 +26,10 @@ export const NetworkId = {
   OPTIMISM: 10
   // FUJI: 43113,
 };
-export const supportedChainIds = [ 137, 56, 61, 100, 1987, 43114, 4, 1285, 9001, 42161, 10]
+export const supportedChainIds = [ 137, 56, 61, 100, 1987, 43114, 5, 1285, 9001, 42161, 10]
 export const addresses = {
   [NetworkId.POLYGON]: "0x683F246253934862B86b042476837a5e9B91E326", //verified
-  [NetworkId.RINKEBY]: "0x0f79f4239F343fc932F357eFAAeE405a90d28e42", //verified
+  [NetworkId.GOERLI]: "0xffd6c84c214c987ba992d6acce1d862a17e82f25", //verified
   [NetworkId.ETHERGEM]: "0x5A4Aa5B8f54763A22A7bE54F30Be650fe040b8eA", //
   [NetworkId.AVALANCHE]: "0x0a8D5435a43c8d63b47D6E61F5eE88868A1b8Ed9", //verified
   [NetworkId.BSC]: "0x57aa9274d64185A77DAde4c104A49eD52C9D42Af", //verified
@@ -42,7 +42,7 @@ export const addresses = {
 };
 export const standard = {
   [NetworkId.POLYGON]: "0x78A46265BedEfF1f18C3696dB01669A76B7833C8",
-  [NetworkId.RINKEBY]: "0xFe4317e87958f5b408aF9d8fFf78F228435fd0C8",
+  [NetworkId.GOERLI]: "0x62e7D28e26A0d3f6151E8b10A7c3b425706c3079",
   [NetworkId.ETHERGEM]: "0xf3195693ddb32822cdf759305a91b674ab1382e1",
   [NetworkId.AVALANCHE]: "0x0603347E9f803D28b59B8346480b1a43a11eE100",
   [NetworkId.BSC]: "0xCE387EEAD4bf81D5665EacBC457CcAea51955863",
@@ -55,13 +55,13 @@ export const standard = {
 }
 // export const platforms = {
 //   [NetworkId.POLYGON]: "0x175bc1bACF1fc054A5CA30AdeC155f00AaA2ce06",
-//   [NetworkId.RINKEBY]: "0x3521750B9abda780854C570e83624aCB1EB7afe7",
+//   [NetworkId.GOERLI]: "0x3521750B9abda780854C570e83624aCB1EB7afe7",
 //   [NetworkId.ETHERGEM]: "0x43dF4869458f2B81782cE29951d057253a68Ffc6",
 //   [NetworkId.AVALANCHE]: "0x0c11e7AC0864624e22935748ea092A27bD7B4924"
 // }
 export const explorer = {
   [NetworkId.POLYGON]: "https://polygonscan.com",
-  [NetworkId.RINKEBY]: "https://rinkeby.etherscan.io",
+  [NetworkId.GOERLI]: "https://goerli.etherscan.io",
   [NetworkId.ETHERGEM]: "https://blockscout.egem.io",
   [NetworkId.AVALANCHE]: "https://snowtrace.io",
   [NetworkId.BSC]: "https://bscscan.com",
@@ -88,11 +88,11 @@ export const NETWORKS = {
   //   label: "Polygon Mumbai",
   //   chainId: 80001
   // },
-  // [NetworkId.ETHEREUM]: {
-  //   image: eth,
-  //   label: "Ethereum",
-  //   chainId: 1
-  // },
+  [NetworkId.ETHEREUM]: {
+    image: eth,
+    label: "Ethereum",
+    chainId: 1
+  },
   [NetworkId.BSC]: {
     image: bnb,
     label: "Binance Smart Chain",
@@ -118,10 +118,10 @@ export const NETWORKS = {
     label: "Avalanche",
     chainId: 43114
   },
-  [NetworkId.RINKEBY]: {
+  [NetworkId.GOERLI]: {
     image: eth,
-    label: "Rinkeby",
-    chainId: 4
+    label: "Goerli",
+    chainId: 5
   },
   [NetworkId.MOONRIVER]: {
     image: moonriver,
@@ -749,7 +749,7 @@ export const ERC721_ABI = [
 
 export const BIDIFY = {
   address: {
-    [NetworkId.RINKEBY]: "0xE9f8f0267342c4b9e65C7Bc14c1b33877e10C817", //new tested
+    [NetworkId.GOERLI]: "0xE9f8f0267342c4b9e65C7Bc14c1b33877e10C817", //new tested
     [NetworkId.ETHERGEM]: "0x159f569E2c35C7B5B601D222AFafc90edD23E1f9", //new tested
     [NetworkId.AVALANCHE]: "0xED002B4F0b3167E9096F6f4674c18433dca96518", //new tested
     [NetworkId.POLYGON]: "0x2FccEd65EeC83Bf2790bBc046013e13d6498038C", //new tested
@@ -1345,7 +1345,7 @@ export const baseUrl = "https://api.bidify.org/api"
 export const getLogUrl = {
   [NetworkId.POLYGON]: "https://api.polygonscan.com/api?module=logs&action=getLogs",
   [NetworkId.AVALANCHE]: "https://api.snowtrace.io/api?module=logs&action=getLogs",
-  [NetworkId.RINKEBY]: "https://api-rinkeby.etherscan.io/api?module=logs&action=getLogs",
+  [NetworkId.GOERLI]: "https://api-goerli.etherscan.io/api?module=logs&action=getLogs",
   [NetworkId.ETHERGEM]: "https://blockscout.egem.io/api?module=logs&action=getLogs",
   [NetworkId.BSC]: "https://api.bscscan.com/api?module=logs&action=getLogs",
   [NetworkId.EVMOS]: "https://evm.evmos.org/api?module=logs&action=getLogs",
@@ -1356,7 +1356,7 @@ export const getLogUrl = {
 export const snowApi = {
   43114: "Y72B4EMH42SYS5C3RGGIDJM9HPQKYUSUTH",
   137: "XKIRV2YEWTDJIXRQSXB42PT78P1879NTJT",
-  4: "1GT2QR7K76T2EAU72UEP43M82W72TMQAU6",
+  5: "1GT2QR7K76T2EAU72UEP43M82W72TMQAU6",
   56: "WYSBB1UFVWFNRVRMCRZ6PMI5XD3K1D2A9F"
 }
 
@@ -1366,7 +1366,7 @@ export const URLS = {
   // 80001: "https://matic-testnet-archive-rpc.bwarelabs.com",
   // 43113: "https://api.avax-test.network/ext/bc/C/rpc",
   // 5: "https://goerli.infura.io/v3/0c8149f8e63b4b818d441dd7f74ab618",
-  [NetworkId.RINKEBY]: "https://rinkeby.infura.io/v3/0c8149f8e63b4b818d441dd7f74ab618",
+  [NetworkId.GOERLI]: "https://goerli.infura.io/v3/0c8149f8e63b4b818d441dd7f74ab618",
   [NetworkId.ETHERGEM]: "https://lb.rpc.egem.io",
   [NetworkId.AVALANCHE]: "https://api.avax.network/ext/bc/C/rpc",
   [NetworkId.POLYGON]: "https://polygon-rpc.com",

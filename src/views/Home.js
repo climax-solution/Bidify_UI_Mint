@@ -19,15 +19,13 @@ import { injected } from "../connectors"
 import { switchNetwork } from "../wallet"
 import { addresses, ABI, NETWORKS, supportedChainIds, explorer, BIDIFY, getLogUrl, snowApi, baseUrl, ERC721_ABI, standard, URLS } from "../constants"
 import { ethers, Contract } from "ethers"
-import { Buffer } from "buffer"
 import axios from "axios"
 import MailchimpSubscribe from "react-mailchimp-subscribe";
 import Terms from "../assets/docs/Bidify_Mint_Terms_and_Conditions.pdf";
 import Policy from "../assets/docs/Bidify_Mint_Privacy_Policy.pdf";
 // import { create } from 'ipfs-http-client'
-import fleekStorage from '@fleekhq/fleek-storage-js'
-
-
+// import fleekStorage from '@fleekhq/fleek-storage-js'
+import { Web3Storage } from 'web3.storage'
 
 const postUrl = `https://cryptosi.us2.list-manage.com/subscribe/post?u=${process.env.REACT_APP_MAILCHIMP_U}&id=${process.env.REACT_APP_MAILCHIMP_ID}`;
 // const ipfs = create({ host: 'ipfs.infura.io', port: 5001, protocol: 'https', apiPath: '/ipfs/api/v0' })
@@ -146,12 +144,13 @@ export const Home = () => {
     const readImage = event => {
         event.preventDefault()
         const file = event.target.files[0]
-        const reader = new window.FileReader()
-        reader.readAsArrayBuffer(file)
-        reader.onloadend = () => {
+        // const reader = new window.FileReader()
+        // reader.readAsArrayBuffer(file)
+        // reader.onloadend = () => {
             setType(file.type);
-            setBuffer(Buffer(reader.result));
-        }
+            setBuffer(file);
+            // setBuffer(Buffer(reader.result));
+        // }
     }
     const getLogs = async () => {
         // const web3 = new Web3(new Web3.providers.HttpProvider(URLS[chainId]));
@@ -313,7 +312,7 @@ export const Home = () => {
                 break;
             case 4:
                 provider = new ethers.providers.InfuraProvider(
-                    "rinkeby",
+                    "goerli",
                     "0c8149f8e63b4b818d441dd7f74ab618"
                 );
                 break;
@@ -426,67 +425,90 @@ export const Home = () => {
         setLoading(true)
         setModalContent("ipfs")
 
-        const files = await fleekStorage.listFiles({
-            apiKey: process.env.REACT_APP_API_KEY,
-            apiSecret: process.env.REACT_APP_API_SECRET,
-            bucket: process.env.REACT_APP_BUCKET,
-            getOptions: [
-                'key',
-                'hash',
-                'publicUrl'
-            ],
-        })
-        const key = files.length
-        let uploadedFile
-        try {
-            uploadedFile = await fleekStorage.upload({
-                apiKey: process.env.REACT_APP_API_KEY,
-                apiSecret: process.env.REACT_APP_API_SECRET,
-                bucket: process.env.REACT_APP_BUCKET,
-                key: key.toString(),
-                data: buffer,
-                httpUploadProgressCallback: (event) => {
-                    console.log(Math.round(event.loaded / event.total * 100) + '% done');
-                }
-            })
-        } catch (e) {
-            console.log("err while uploading image", e)
-            setLoading(false)
-        }
+        // const files = await fleekStorage.listFiles({
+        //     apiKey: process.env.REACT_APP_API_KEY,
+        //     apiSecret: process.env.REACT_APP_API_SECRET,
+        //     // bucket: process.env.REACT_APP_BUCKET,
+        //     getOptions: [
+        //         'key',
+        //         'hash',
+        //         'publicUrl'
+        //     ],
+        // })
+        // const key = files.length
+        // let uploadedFile
+        // try {
+        //     uploadedFile = await fleekStorage.upload({
+        //         apiKey: process.env.REACT_APP_API_KEY,
+        //         apiSecret: process.env.REACT_APP_API_SECRET,
+        //         // bucket: process.env.REACT_APP_BUCKET,
+        //         key: key.toString(),
+        //         data: buffer,
+        //         httpUploadProgressCallback: (event) => {
+        //             console.log(Math.round(event.loaded / event.total * 100) + '% done');
+        //         }
+        //     })
+        // } catch (e) {
+        //     console.log("err while uploading image", e)
+        //     setLoading(false)
+        // }
         // ipfs.add(buffer).then(async (result) => {
-        const tokenURI = {
-            name,
-            description,
-            image: uploadedFile.publicUrl
-        }
-        let added
+        // const tokenURI = {
+        //     name,
+        //     description,
+        //     image: uploadedFile.publicUrl
+        // }
+        // let added
+        // try {
+        //     added = await fleekStorage.upload({
+        //         apiKey: process.env.REACT_APP_API_KEY,
+        //         apiSecret: process.env.REACT_APP_API_SECRET,
+        //         bucket: process.env.REACT_APP_BUCKET,
+        //         key: key + 1 + ".json",
+        //         data: Buffer(JSON.stringify(tokenURI)),
+        //         httpUploadProgressCallback: (event) => {
+        //             console.log(Math.round(event.loaded / event.total * 100) + '% done');
+        //         }
+        //     })
+        // } catch (e) {
+        //     console.log("err while uploading metadata", e)
+        //     setLoading(false)
+        // }
+        let fullImageUrl;
+        let fullMetadataUrl;
         try {
-            added = await fleekStorage.upload({
-                apiKey: process.env.REACT_APP_API_KEY,
-                apiSecret: process.env.REACT_APP_API_SECRET,
-                bucket: process.env.REACT_APP_BUCKET,
-                key: key + 1 + ".json",
-                data: Buffer(JSON.stringify(tokenURI)),
-                httpUploadProgressCallback: (event) => {
-                    console.log(Math.round(event.loaded / event.total * 100) + '% done');
-                }
-            })
-        } catch (e) {
-            console.log("err while uploading metadata", e)
-            setLoading(false)
+            const client = new Web3Storage({ token: process.env.REACT_APP_IPFS_TOKEN });
+            const imageCid = await client.put([buffer]);
+            fullImageUrl =  'https://' + imageCid.cid + '.ipfs.w3s.link/' + buffer.name;
+            const tokenURI = {
+                name,
+                description,
+                image: fullImageUrl
+            };
+            const uriBlob = new Blob([JSON.stringify(tokenURI)], { type: 'application/json' });
+            const uriCid = await client.put([
+                new File([uriBlob], 'meta.json')
+            ]);
+            fullMetadataUrl = 'https://' + uriCid + '.ipfs.w3s.link/meta.json';
+            console.log(fullMetadataUrl)
+            
+        } catch(err) {
+            console.log(err);
+            setLoading(false);
         }
+
         try {
             const dataToDatabase = {
                 description: description,
-                image: uploadedFile.publicUrl,
-                metadataUrl: added.publicUrl,
+                image: fullImageUrl, //uploadedFile.publicUrl
+                metadataUrl: fullMetadataUrl, //added.publicUrl
                 name: name,
                 owner: account,
                 platform: erc721,
                 network: chainId,
                 isERC721: true,
             }
-            const tokenURIJson = added.publicUrl
+            const tokenURIJson = fullMetadataUrl //added.publicUrl
             setModalContent("mint")
             const signer = library.getSigner()
             const BidifyMinter = new ethers.Contract(addresses[chainId], ABI, signer)
@@ -670,7 +692,7 @@ export const Home = () => {
                             <a href={`${explorer[chainId]}/tx/${transaction}`} target="_blank" rel="noreferrer" className="self-center mt-4 text-white bg-[#e48b24] hover:bg-[#f7a531] focus:ring-4 focus:ring-[#f7b541] font-medium rounded-lg text-sm px-8 mx-auto py-2.5 text-center">
                                 View Transaction
                             </a>
-                            <img className={`mt-8 min-w-[240px] max-w-[240px] mx-auto rounded-lg ${buffer ? "" : "animate-pulse"}`} src={buffer ? `data:${type};base64,${buffer.toString('base64')}` : preview} alt="preview" />
+                            <img className={`mt-8 min-w-[240px] max-w-[240px] mx-auto rounded-lg ${buffer ? "" : "animate-pulse"}`} src={buffer ? URL.createObjectURL(buffer) : preview} alt="preview" />
                             <p className="text-xl mt-4 font-bold tracking-tight break-words text-[#AA5E0D]">{name}</p>
                             <div className="flex items-center justify-center gap-3 mt-6">
                                 <p className="text-[#F09132]">Share with the world</p>
@@ -779,7 +801,7 @@ export const Home = () => {
                     <div className="flex flex-col items-center w-full">
                         <span className="text-4xl text-[#e48b24] font-bold">Preview</span>
                         <div className="max-w-sm mt-8 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                            <img className={`rounded-t-lg ${buffer ? "" : "animate-pulse"}`} src={buffer ? `data:${type};base64,${buffer.toString('base64')}` : preview} alt="preview" />
+                            <img className={`rounded-t-lg ${buffer ? "" : "animate-pulse"}`} src={buffer ? URL.createObjectURL(buffer) : preview} alt="preview" />
                             <div className="flex flex-col gap-4 p-5">
                                 {name ? <h5 className="text-2xl font-bold tracking-tight text-gray-900 break-words dark:text-white">{name}</h5> :
                                     <div className="w-1/2 animate-pulse min-h-[20px] bg-gray-300 rounded-full"></div>

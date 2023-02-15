@@ -81,7 +81,12 @@ export const NETWORKS = {
   [NetworkId.POLYGON]: {
     image: matic,
     label: "Polygon",
-    chainId: 137
+    chainId: 137,
+    nativeCurrency: {
+      name: "MATIC",
+      decimals: 18,
+      symbol: "MATIC"
+    }
   },
   // [NetworkId.POLYGON_TESTNET]: {
   //   image: matic,
@@ -91,57 +96,112 @@ export const NETWORKS = {
   [NetworkId.ETHEREUM]: {
     image: eth,
     label: "Ethereum",
-    chainId: 1
+    chainId: 1,
+    nativeCurrency: {
+      name: "ETH",
+      decimals: 18,
+      symbol: "ETH"
+    }
   },
   [NetworkId.BSC]: {
     image: bnb,
     label: "Binance Smart Chain",
     chainId: 56,
+    nativeCurrency: {
+      name: "BNB",
+      decimals: 18,
+      symbol: "BNB"
+    }
   },
   [NetworkId.ETC]: {
     image: etc,
     label: "Ethereum Classic",
-    chainId: 61
+    chainId: 61,
+    nativeCurrency: {
+      name: "ETC",
+      decimals: 18,
+      symbol: "ETC"
+    }
   },
   [NetworkId.GNOSIS]: {
     image: gnosis,
     label: "Gnosis Chain",
-    chainId: 100
+    chainId: 100,
+    nativeCurrency: {
+      name: "GNOSIS",
+      decimals: 18,
+      symbol: "GNOSIS"
+    }
   },
   [NetworkId.ETHERGEM]: {
     image: egem,
     label: "Ethergem",
-    chainId: 1987
+    chainId: 1987,
+    nativeCurrency: {
+      name: "ETG",
+      decimals: 18,
+      symbol: "ETG"
+    }
   },
   [NetworkId.AVALANCHE]: {
     image: avax,
     label: "Avalanche",
-    chainId: 43114
+    chainId: 43114,
+    nativeCurrency: {
+      name: "AVAX",
+      decimals: 18,
+      symbol: "AVAX"
+    }
   },
   [NetworkId.GOERLI]: {
     image: eth,
     label: "Goerli",
-    chainId: 5
+    chainId: 5,
+    nativeCurrency: {
+      name: "GETH",
+      decimals: 18,
+      symbol: "GETH"
+    }
   },
   [NetworkId.MOONRIVER]: {
     image: moonriver,
     label: "Moonriver",
-    chainId: 1285
+    chainId: 1285,
+    nativeCurrency: {
+      name: "MOVR",
+      decimals: 18,
+      symbol: "MOVR"
+    }
   },
   [NetworkId.EVMOS]: {
     image: evmos,
     label: "Evmos",
-    chainId: 9001
+    chainId: 9001,
+    nativeCurrency: {
+      name: "EVMOS",
+      decimals: 18,
+      symbol: "EMVOS"
+    }
   },
   [NetworkId.ARBITRUM]: {
     image: "https://bridge.arbitrum.io/logo.png",
     label: "Arbitrum",
-    chainId: 42161
+    chainId: 42161,
+    nativeCurrency: {
+      name: "AETH",
+      decimals: 18,
+      symbol: "AETH"
+    }
   },
   [NetworkId.OPTIMISM]: {
     image: "https://assets-global.website-files.com/611dbb3c82ba72fbc285d4e2/611fd32ddac3c1856c306c37_optimism%20logo%20icon.svg",
     label: "Optimism",
-    chainId: 10
+    chainId: 10,
+    nativeCurrency: {
+      name: "OETH",
+      decimals: 18,
+      symbol: "OETH"
+    }
   }
   // [NetworkId.KLAYTN]: {
   //   image: klaytn,

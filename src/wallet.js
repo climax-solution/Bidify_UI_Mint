@@ -1,6 +1,6 @@
 // Set of helper functions to facilitate wallet setup
 import { ethers } from "ethers";
-import { NETWORKS } from "./constants";
+import { NETWORKS, URLS, explorer } from "./constants";
 
 /**
  * Prompt the user to add BSC as a network on Metamask, or switch to BSC if the wallet is on a different network
@@ -21,11 +21,18 @@ import { NETWORKS } from "./constants";
           await window.ethereum.request({
             method: "wallet_addEthereumChain",
             params: [
-              { chainId: ethers.utils.hexlify(_chainId), rpcUrl: NETWORKS[_chainId].rpcUrls[0]},
+              {
+                chainId: ethers.utils.hexlify(_chainId),
+                rpcUrls: [URLS[_chainId]],
+                chainName: NETWORKS[_chainId].label,
+                nativeCurrency: NETWORKS[_chainId].nativeCurrency,
+                blockExplorerUrls: [explorer[_chainId]]
+              },
             ],
           });
         } catch (addError) {
           // handle "add" error
+          console.log(addError)
         }
       }
       // handle other "switch" errors

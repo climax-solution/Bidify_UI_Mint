@@ -479,7 +479,7 @@ export const Home = () => {
         try {
             const client = new Web3Storage({ token: process.env.REACT_APP_IPFS_TOKEN });
             const imageCid = await client.put([buffer]);
-            fullImageUrl =  'https://' + imageCid.cid + '.ipfs.w3s.link/' + buffer.name;
+            fullImageUrl =  'https://' + imageCid + '.ipfs.w3s.link/' + buffer.name;
             const tokenURI = {
                 name,
                 description,
@@ -490,7 +490,6 @@ export const Home = () => {
                 new File([uriBlob], 'meta.json')
             ]);
             fullMetadataUrl = 'https://' + uriCid + '.ipfs.w3s.link/meta.json';
-            console.log(fullMetadataUrl)
             
         } catch(err) {
             console.log(err);
